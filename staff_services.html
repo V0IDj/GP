@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الخدمات - لوحة الموظف</title>
+    <link rel="stylesheet" href="./styles/staff_services.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>إدارة طلبات الخدمات المعينة</h1>
+            <div class="user-info">
+                <span>مرحباً، </span>
+                <span id="staff-name">الموظف</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="status-filter">تصفية حسب الحالة:</label>
+                    <select id="status-filter">
+                        <option value="all">جميع الطلبات</option>
+                        <option value="wait 2">بانتظار الموافقة</option>
+                        <option value="approved">تمت الموافقة</option>
+                        <option value="rejected">مرفوض</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="service-type-filter">تصفية حسب نوع الخدمة:</label>
+                    <select id="service-type-filter">
+                        <option value="all">جميع الخدمات</option>
+                        <option value="إحصاء تحليلي">إحصاء تحليلي</option>
+                        <option value="خدمة الترجمة">خدمة الترجمة</option>
+                        <option value="تدقيق لغوي">تدقيق لغوي</option>
+                        <option value="حجز مباشر">حجز مباشر</option>
+                        <option value="other">خدمات أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="بحث عن اسم المستخدم...">
+                    <button id="search-btn">بحث</button>
+                </div>
+            </div>
+            
+            <div class="services-list" id="services-container">
+                <div class="loading">جار تحميل طلبات الخدمات...</div>
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be added dynamically -->
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal for service details -->
+    <div id="service-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">تفاصيل الخدمة</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Service details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button id="modal-close-btn">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for completing service -->
+    <div id="complete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>إكمال الخدمة</h2>
+                <span class="close-complete-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>يرجى تحميل الملفات المطلوبة وإضافة ملاحظات لإكمال الخدمة:</p>
+                
+                <div class="form-group">
+                    <label for="completion-notes">ملاحظات:</label>
+                    <textarea id="completion-notes" rows="4" placeholder="أضف ملاحظات حول الخدمة المنجزة..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>الملفات:</label>
+                    <div class="file-upload" id="dropZone">
+                        <p>اسحب الملفات هنا أو اضغط لاختيار الملفات</p>
+                        <div class="file-upload-btn" id="fileUploadBtn">اختيار ملفات</div>
+                        <input type="file" id="fileInput" name="files[]" multiple>
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+                
+                <input type="hidden" id="current-service-id" value="">
+            </div>
+            <div class="modal-footer">
+                <button id="complete-btn">إكمال الخدمة</button>
+                <button id="cancel-complete-btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 - نظام إدارة الأبحاث العلمية</p>
+    </footer>
+    
+    <script src="./javascript/staff_services.js"></script>
+</body>
+</html>

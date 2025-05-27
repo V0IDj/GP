@@ -1,0 +1,3 @@
+2025-05-18 17:00:14 - Request received: {"id":"4","status":"returned","return_target":"user","comments":"asd","approved_admin":"No","approved_vp_academic":"No","approved_president":"No"}
+2025-05-18 17:00:14 - User: yazan_99 (ID: 5, Role: Admin)
+2025-05-18 17:00:14 - Error checking reward: Table 'gp.rewards' doesn't exist

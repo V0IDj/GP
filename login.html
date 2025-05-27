@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="./styles/login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>دائرة البحث العلمي</h1>
+        <form id="loginForm" action="login.php" method="POST">
+            <label for="username">اسم المستخدم</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+
+        <!-- Error message displayed if exists in URL -->
+        <div id="error-message" style="color: red; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        // Check if the error parameter exists in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('error');
+
+        // Display the error message if it exists
+        if (errorMessage) {
+            document.getElementById('error-message').textContent = decodeURIComponent(errorMessage);
+        }
+    </script>
+
+    <script src="./javascript/loginvaldtion.js"></script>
+</body>
+</html>

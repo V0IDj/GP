@@ -1,0 +1,251 @@
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #771411;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #771411;
+}
+
+h2 {
+    color: #771411;
+    margin-bottom: 10px;
+}
+
+/* Instructions Styles */
+.instructions {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-right: 4px solid #771411;
+}
+
+.instructions ol {
+    padding-right: 20px;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* Form Styles */
+.form-container {
+    padding: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #771411;
+    box-shadow: 0 0 5px rgba(102, 0, 0, 0.3);
+}
+
+/* Checkbox and Radio Styles */
+.checkbox-group,
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.checkbox-item,
+.radio-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.checkbox-item input,
+.radio-item input {
+    margin-left: 5px;
+}
+
+/* File Upload Styles */
+.file-uploads {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.file-upload {
+    margin-bottom: 15px;
+}
+
+.file-upload label {
+       display: inline-block;
+    padding: 1000px 16px; /* أصغر شوي */
+    background-color: #771411;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-family: 'Cairo', sans-serif;
+}
+
+.file-upload input[type="file"] {
+    display: block;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: #fff;
+}
+
+/* Signature Pad Styles */
+.signature-container {
+    margin-top: 30px;
+}
+
+.signature-pad {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+#signatureCanvas {
+    width: 100%;
+    height: 200px;
+    cursor: crosshair;
+
+}
+
+.signature-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 500;
+}
+
+#clearSignature {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+#clearSignature:hover {
+    background-color: #e0e0e0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.submit-btn {
+    background-color: #771411;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #2a0706;
+}
+
+.reset-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.reset-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .checkbox-group,
+    .radio-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .signature-pad canvas {
+        height: 150px;
+    }
+}
+
+input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-upload label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #771411;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.file-upload label:hover {
+    background-color: #5b0f0d;
+}

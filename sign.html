@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./styles/sign.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>دائرة البحث العلمي</h1>
+        <form id="signupForm" action="sign.php" method="POST">
+            <label for="username">اسم المستخدم</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">انشاء حساب</button>
+        </form>
+    </div>
+    <script src="./javascript/signvaldtion.js"></script>
+</body>
+
+</html>

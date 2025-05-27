@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدماتنا</title>
+    <link rel="stylesheet" href="./styles/service.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>خدماتنا</h1>
+        
+        <form id="serviceForm" class="service-form" method="post" action="service.php" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>اختر نوع الخدمة:</label>
+                <div class="service-types">
+                    <div class="service-type" data-service="statistics">
+                        <i class="icon">📊</i>
+                        <h3>إحصاء تحليلي</h3>
+                        <p>تحليل بيانات واستخراج نتائج إحصائية</p>
+                    </div>
+                    <div class="service-type" data-service="translation">
+                        <i class="icon">🔄</i>
+                        <h3>خدمة الترجمة</h3>
+                        <p>ترجمة نصوص ومستندات</p>
+                    </div>
+                    <div class="service-type" data-service="proofreading">
+                        <i class="icon">✏️</i>
+                        <h3>تدقيق لغوي</h3>
+                        <p>تصحيح الأخطاء اللغوية والإملائية</p>
+                    </div>
+                    <div class="service-type" data-service="inquiry">
+                        <i class="icon">❓</i>
+                        <h3>استفسار</h3>
+                        <p>استفسار عن الخدمات المتاحة</p>
+                    </div>
+                    <div class="service-type" data-service="booking">
+                        <i class="icon">📅</i>
+                        <h3>حجز مباشر</h3>
+                        <p>حجز موعد مباشر لخدماتنا</p>
+                    </div>
+                    <div class="service-type" data-service="other">
+                        <i class="icon">➕</i>
+                        <h3>خدمات أخرى</h3>
+                        <p>خدمات متنوعة أخرى</p>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedService" name="service_type" required>
+                <div class="error-message" id="serviceError"></div>
+            </div>
+            
+            <div class="form-group other-service-box" id="otherServiceBox">
+                <label for="otherServiceInput">ما هي الخدمة المطلوبة؟</label>
+                <input type="text" id="otherServiceInput" name="other_service" placeholder="يرجى تحديد الخدمة المطلوبة">
+            </div>
+            
+            <div class="form-group inquiry-box" id="inquiryBox">
+                <label for="inquiryText">استفسارك:</label>
+                <textarea id="inquiryText" name="inquiry_text" rows="5" placeholder="اكتب استفسارك هنا..."></textarea>
+            </div>
+            
+            <div class="form-group" id="fileUploadBox">
+                <label>الملفات المطلوبة:</label>
+                <div class="file-upload" id="dropZone">
+                    <p>اسحب الملفات هنا أو اضغط لاختيار الملفات</p>
+                    <div class="file-upload-btn" id="fileUploadBtn">اختيار ملفات</div>
+                    <input type="file" id="fileInput" name="files[]" multiple>
+                </div>
+                <div class="file-list" id="fileList"></div>
+                <div class="error-message" id="fileError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">ملاحظات إضافية:</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="أضف أي ملاحظات تتعلق بالخدمة المطلوبة..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">تقديم الطلب</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceTypes = document.querySelectorAll('.service-type');
+            const selectedServiceInput = document.getElementById('selectedService');
+            const otherServiceBox = document.getElementById('otherServiceBox');
+            const inquiryBox = document.getElementById('inquiryBox');
+            const fileUploadBox = document.getElementById('fileUploadBox');
+            const fileInput = document.getElementById('fileInput');
+            const fileUploadBtn = document.getElementById('fileUploadBtn');
+            const dropZone = document.getElementById('dropZone');
+            const fileList = document.getElementById('fileList');
+            const serviceForm = document.getElementById('serviceForm');
+            const serviceError = document.getElementById('serviceError');
+            const fileError = document.getElementById('fileError');
+            
+            // Selected files array
+            let selectedFiles = [];
+            
+            // Service type selection
+            serviceTypes.forEach(function(serviceType) {
+                serviceType.addEventListener('click', function() {
+                    // Remove selected class from all service types
+                    serviceTypes.forEach(function(type) {
+                        type.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked service type
+                    this.classList.add('selected');
+                    
+                    // Update the hidden input value
+                    const serviceValue = this.getAttribute('data-service');
+                    selectedServiceInput.value = serviceValue;
+                    
+                    // Show/hide specific elements based on service type
+                    if (serviceValue === 'inquiry') {
+                        inquiryBox.style.display = 'block';
+                        fileUploadBox.style.display = 'none';
+                    } else if (serviceValue === 'other') {
+                        otherServiceBox.style.display = 'block';
+                        inquiryBox.style.display = 'none';
+                        fileUploadBox.style.display = 'block';
+                    } else {
+                        otherServiceBox.style.display = 'none';
+                        inquiryBox.style.display = 'none';
+                        fileUploadBox.style.display = 'block';
+                    }
+                    
+                    // Clear error message
+                    serviceError.textContent = '';
+                });
+            });
+            
+            // File upload button click
+            fileUploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // File selection
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            // Drag and Drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropZone.style.borderColor = '#3498db';
+                dropZone.style.backgroundColor = '#e1f0fa';
+            }
+            
+            function unhighlight() {
+                dropZone.style.borderColor = '#ddd';
+                dropZone.style.backgroundColor = '#f9f9f9';
+            }
+            
+            dropZone.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }, false);
+            
+            // Handle files function
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        
+                        // Check if file is already in the list
+                        if (!isFileAlreadyAdded(file)) {
+                            selectedFiles.push(file);
+                            addFileToList(file);
+                        }
+                    }
+                    
+                    // Clear error message
+                    fileError.textContent = '';
+                }
+            }
+            
+            // Check if file is already added
+            function isFileAlreadyAdded(file) {
+                return selectedFiles.some(existingFile => 
+                    existingFile.name === file.name && 
+                    existingFile.size === file.size && 
+                    existingFile.type === file.type
+                );
+            }
+            
+            // Add file to list
+            function addFileToList(file) {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                
+                // File icon based on type
+                let fileIcon = '📄';
+                if (file.type.includes('image')) {
+                    fileIcon = '🖼️';
+                } else if (file.type.includes('pdf')) {
+                    fileIcon = '📑';
+                } else if (file.type.includes('word')) {
+                    fileIcon = '📝';
+                } else if (file.type.includes('excel') || file.type.includes('spreadsheet')) {
+                    fileIcon = '📊';
+                }
+                
+                fileName.innerHTML = `<span>${fileIcon}</span> ${file.name} <span class="file-type">(${formatFileSize(file.size)})</span>`;
+                
+                const removeBtn = document.createElement('span');
+                removeBtn.className = 'remove-file';
+                removeBtn.textContent = '✖';
+                removeBtn.addEventListener('click', function() {
+                    // Remove file from array
+                    const fileIndex = selectedFiles.indexOf(file);
+                    if (fileIndex > -1) {
+                        selectedFiles.splice(fileIndex, 1);
+                    }
+                    
+                    // Remove file item from list
+                    fileList.removeChild(fileItem);
+                });
+                
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(removeBtn);
+                fileList.appendChild(fileItem);
+            }
+            
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Form submission
+            serviceForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+                
+                // Validate service type
+                if (!selectedServiceInput.value) {
+                    serviceError.textContent = 'يرجى اختيار نوع الخدمة';
+                    isValid = false;
+                }
+                
+                // Validate files for non-inquiry services
+                if (selectedServiceInput.value !== 'inquiry' && selectedFiles.length === 0) {
+                    fileError.textContent = 'يرجى رفع ملف واحد على الأقل';
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Create FormData object
+                    const formData = new FormData(this);
+                    
+                    // Append selected files
+                    selectedFiles.forEach(function(file, index) {
+                        formData.append('files[]', file);
+                    });
+                    
+                    // Submit form using AJAX
+                    fetch('service.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('تم تقديم طلبك بنجاح! رقم الطلب: ' + data.request_id);
+                            // Reset form
+                            serviceForm.reset();
+                            selectedFiles = [];
+                            fileList.innerHTML = '';
+                            serviceTypes.forEach(function(type) {
+                                type.classList.remove('selected');
+                            });
+                            otherServiceBox.style.display = 'none';
+                            inquiryBox.style.display = 'none';
+                        } else {
+                            alert('حدث خطأ: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('حدث خطأ أثناء تقديم الطلب');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

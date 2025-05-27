@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب مكافأة النشر العلمي</title>
+    <link rel="stylesheet" href="styles/userreward.css">
+</head>
+<body>
+    <div class="container">
+        <h1>طلب مكافأة النشر العلمي</h1>
+        
+        <div class="instructions">
+            <h2>يجب على الباحث تقديم المرفقات التالية:</h2>
+            <ol>
+                <li>نموذج طلب مكافأة نشر علمي بعد تعبئته.</li>
+                <li>نسخة من موافقة مجلس الكلية على استحقاق مكافأة النشر في المجلات المصنفة.</li>
+                <li>إثبات نشر البحث في قاعدة بيانات (Scopus) يتم طباعتها من قاعدة بيانات Scopus نفسها.</li>
+                <li>للأبحاث المنشورة في مجلة مدرجة في قواعد بيانات (Clarifate (Web of Science)) طباعة وصل إدراج المجلة من قاعدة البيانات نفسها.</li>
+                <li>إثبات تصنيف المجلة وفقا لمقياس التأثير العلمي للمجلات (Q1,Q2,Q3,Q4)، ويتم الحصول عليها من قاعدة بيانات (Scopus).</li>
+            </ol>
+        </div>
+
+        <div class="form-container">
+            <form id="rewardForm" action="userreward.php" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="researchTitle">عنوان البحث:</label>
+                    <input type="text" id="researchTitle" name="researchTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="journalName">اسم المجلة:</label>
+                    <input type="text" id="journalName" name="journalName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="researchLink">رابط البحث في المجلة:</label>
+                    <input type="url" id="researchLink" name="researchLink" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="publishDate">تاريخ النشر:</label>
+                    <input type="date" id="publishDate" name="publishDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>تصنيف المجلة:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="scopus" name="journalClassification[]" value="Scopus">
+                            <label for="scopus">Scopus</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="webofscience" name="journalClassification[]" value="Web of Science">
+                            <label for="webofscience">Web of Science</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>فئة المجلة/المؤتمر:</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="q1" name="journalCategory" value="Q1" required>
+                            <label for="q1">Q1</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q2" name="journalCategory" value="Q2">
+                            <label for="q2">Q2</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q3" name="journalCategory" value="Q3">
+                            <label for="q3">Q3</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q4" name="journalCategory" value="Q4">
+                            <label for="q4">Q4</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group file-uploads">
+                    <label>المرفقات المطلوبة:</label>
+                    
+                    <div class="file-upload">
+                        <label for="rewardFormFile">نموذج طلب مكافأة نشر علمي:</label>
+                        <input type="file" id="rewardFormFile" name="rewardFormFile" required>
+                    </div>
+                    
+                    <div class="file-upload">
+                        <label for="collegeApprovalFile">موافقة مجلس الكلية:</label>
+                        <input type="file" id="collegeApprovalFile" name="collegeApprovalFile" required>
+                    </div>
+                    
+                    <div class="file-upload">
+                        <label for="scopusProofFile">إثبات نشر البحث في قاعدة بيانات Scopus:</label>
+                        <input type="file" id="scopusProofFile" name="scopusProofFile">
+                    </div>
+                    
+                    <div class="file-upload">
+                        <label for="wosProofFile">إثبات إدراج المجلة في Web of Science:</label>
+                        <input type="file" id="wosProofFile" name="wosProofFile">
+                    </div>
+                    
+                    <div class="file-upload">
+                        <label for="journalRankingFile">إثبات تصنيف المجلة (Q1-Q4):</label>
+                        <input type="file" id="journalRankingFile" name="journalRankingFile" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="userComments">ملاحظات إضافية:</label>
+                    <textarea id="userComments" name="userComments" rows="4"></textarea>
+                </div>
+
+                <div class="form-group signature-container">
+                    <label for="signature">توقيع الباحث (اختياري):</label>
+                    <div class="signature-pad">
+                        <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                    </div>
+                    <div class="signature-actions">
+                        <button type="button" id="clearSignature">مسح التوقيع</button>
+                        <input type="hidden" id="signatureData" name="signatureData">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">تقديم الطلب</button>
+                    <button type="reset" class="reset-btn">إعادة تعيين</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="javascript/userreward.js"></script>
+</body>
+</html>

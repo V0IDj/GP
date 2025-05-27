@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الأبحاث - لوحة التحكم</title>
+    <link rel="stylesheet" href="./styles/admin_researches.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>إدارة طلبات الأبحاث</h1>
+            <div class="user-info">
+                <span>مرحباً، </span>
+                <span id="admin-name">المدير</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="status-filter">تصفية حسب الحالة:</label>
+                    <select id="status-filter">
+                        <option value="all">جميع الطلبات</option>
+                        <option value="Pending 1">بانتظار موافقة المدير</option>
+                        <option value="Pending 2">بانتظار المراجعة النهائية</option>
+                        <option value="Approved">تمت الموافقة</option>
+                        <option value="Rejected">مرفوض</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="research-type-filter">تصفية حسب النوع:</label>
+                    <select id="research-type-filter">
+                        <option value="all">جميع الأنواع</option>
+                        <option value="practical">عملي</option>
+                        <option value="theoretical">نظري</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="publish-filter">تصفية حسب وسيلة النشر:</label>
+                    <select id="publish-filter">
+                        <option value="all">الكل</option>
+                        <option value="Journal">مجلة علمية</option>
+                        <option value="Book Chapter">فصل في كتاب</option>
+                        <option value="Conference">مؤتمر علمي</option>
+                    </select>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="بحث عن عنوان البحث أو اسم الباحث...">
+                    <button id="search-btn">بحث</button>
+                </div>
+            </div>
+            
+            <div class="researches-list" id="researches-container">
+                <div class="loading">جار تحميل طلبات الأبحاث...</div>
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be added dynamically -->
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal for research details -->
+    <div id="research-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">تفاصيل البحث</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Research details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button id="modal-close-btn">إغلاق</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for assigning reviewers -->
+    <div id="assign-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تعيين مراجعين للبحث</h2>
+                <span class="close-assign-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>الرجاء اختيار المراجعين المناسبين لهذا البحث:</p>
+                <div class="reviewers-list" id="reviewers-list">
+                    <!-- Reviewers list will be loaded here -->
+                </div>
+                <input type="hidden" id="current-research-id" value="">
+            </div>
+            <div class="modal-footer">
+                <button id="assign-btn">تعيين</button>
+                <button id="cancel-assign-btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 - نظام إدارة الأبحاث العلمية</p>
+    </footer>
+    
+    <script src="./javascript/admin_researches.js"></script>
+</body>
+</html>

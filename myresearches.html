@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الأبحاث</title>
+    <link rel="stylesheet" href="./styles/myresearches.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>نظام إدارة الأبحاث العلمية</h1>
+          
+        </header>
+        
+        <main>
+            <div class="dashboard">
+                <div class="dashboard-item" id="completed-research">
+                    <div class="icon-container">
+                        <i class="icon research-icon"></i>
+                    </div>
+                    <h2>الأبحاث المكتملة</h2>
+                    <p>عرض جميع الأبحاث التي تم الانتهاء منها</p>
+                    <button class="view-btn">عرض</button>
+                </div>
+                
+                <div class="dashboard-item" id="reward-status">
+                    <div class="icon-container">
+                        <i class="icon reward-icon"></i>
+                    </div>
+                    <h2>حالة المكافآت</h2>
+                    <p>متابعة حالة طلبات المكافآت الخاصة بك</p>
+                    <button class="view-btn">عرض</button>
+                </div>
+                
+                <div class="dashboard-item" id="service-status">
+                    <div class="icon-container">
+                        <i class="icon service-icon"></i>
+                    </div>
+                    <h2>حالة الخدمات</h2>
+                    <p>متابعة حالة طلبات الخدمات الخاصة بك</p>
+                    <button class="view-btn">عرض</button>
+                </div>
+                
+                <div class="dashboard-item" id="research-status">
+                    <div class="icon-container">
+                        <i class="icon status-icon"></i>
+                    </div>
+                    <h2>حالة الأبحاث</h2>
+                    <p>متابعة حالة الأبحاث المقدمة</p>
+                    <button class="view-btn">عرض</button>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Modal container -->
+        <div id="modal-container" class="modal-hidden" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">العنوان</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-close-btn">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 - نظام إدارة الأبحاث العلمية</p>
+    </footer>
+    
+    <script src="./javascript/myresearches.js"></script>
+</body>
+</html>

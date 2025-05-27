@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أبحاثي المقدمة</title>
+    <link rel="stylesheet" href="./styles/part.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .research-card-footer {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-share {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-share:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-share:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .shared-badge {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .navigation-links {
+            margin: 20px 0;
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: #003d82;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>أبحاثي المقدمة</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="navigation-links">
+            <a href="ResearchParticipation.html" class="nav-link">
+                <i class="fas fa-users"></i> مشاركة في الأبحاث
+            </a>
+        </div>
+
+        <div id="research-container">
+            <div class="research-list" id="research-list">
+                <!-- سيتم ملء هذا القسم بالبيانات من خلال JavaScript -->
+            </div>
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> جاري تحميل الأبحاث...
+            </div>
+            <div id="no-results" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <p>لا توجد أبحاث مقدمة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تأكيد المشاركة -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>مشاركة البحث</h2>
+            <p>هل أنت متأكد من رغبتك في مشاركة هذا البحث ليتمكن الآخرون من المشاركة فيه؟</p>
+            <div id="research-details">
+                <!-- سيتم عرض تفاصيل البحث هنا -->
+            </div>
+            <div class="modal-buttons">
+                <button id="confirm-share" class="btn">تأكيد المشاركة</button>
+                <button id="cancel-share" class="btn btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // متغيرات عامة
+        let selectedResearchId = null;
+        let currentResearchData = [];
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحميل الأبحاث
+            loadMyResearch();
+
+            // مستمعي أحداث النافذة المنبثقة
+            document.querySelector('.close').addEventListener('click', closeModal);
+            document.getElementById('cancel-share').addEventListener('click', closeModal);
+            document.getElementById('confirm-share').addEventListener('click', shareResearch);
+
+            window.addEventListener('click', function(event) {
+                if (event.target === document.getElementById('share-modal')) {
+                    closeModal();
+                }
+            });
+        });
+
+        // تحميل بيانات الأبحاث
+        function loadMyResearch() {
+            const researchList = document.getElementById('research-list');
+            const loading = document.getElementById('loading');
+            const noResults = document.getElementById('no-results');
+            
+            researchList.innerHTML = '';
+            loading.style.display = 'block';
+            noResults.style.display = 'none';
+            
+            // إرسال الطلب
+            fetch('get_my_submitted_research.php')
+                .then(response => response.json())
+                .then(data => {
+                    loading.style.display = 'none';
+                    
+                    if (!data.research || data.research.length === 0) {
+                        noResults.style.display = 'block';
+                        return;
+                    }
+                    
+                    currentResearchData = data.research;
+                    
+                    // عرض الأبحاث
+                    data.research.forEach(research => {
+                        researchList.appendChild(createResearchCard(research));
+                    });
+                })
+                .catch(error => {
+                    loading.style.display = 'none';
+                    console.error('خطأ في تحميل الأبحاث:', error);
+                    researchList.innerHTML = '<div class="no-results"><p>حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.</p></div>';
+                });
+        }
+
+        // إنشاء بطاقة بحث
+        function createResearchCard(research) {
+            const card = document.createElement('div');
+            card.className = 'research-card';
+            
+            let statusClass = '';
+            let statusText = '';
+            
+            switch(research.status) {
+                case 'Pending 1':
+                    statusClass = 'wait';
+                    statusText = 'قيد المراجعة الأولى';
+                    break;
+                case 'Pending 2':
+                    statusClass = 'wait';
+                    statusText = 'قيد المراجعة الثانية';
+                    break;
+                case 'Approved':
+                    statusClass = 'approved';
+                    statusText = 'موافق عليه';
+                    break;
+                case 'Rejected':
+                    statusClass = 'rejected';
+                    statusText = 'مرفوض';
+                    break;
+            }
+            
+            const isShared = research.is_shared == 1;
+            
+            card.innerHTML = `
+                <div class="research-card-header">
+                    <h3>${research.title}</h3>
+                    ${isShared ? '<div class="shared-badge">تمت المشاركة</div>' : ''}
+                </div>
+                <div class="research-card-body">
+                    <div class="status ${statusClass}">${statusText}</div>
+                    <div class="research-info">
+                        <span>التصنيف:</span> ${research.classification || 'غير محدد'}
+                    </div>
+                    <div class="research-info">
+                        <span>نوع البحث:</span> ${research.r_type === 'practical' ? 'تطبيقي' : 'نظري'}
+                    </div>
+                    <div class="research-info">
+                        <span>تاريخ التقديم:</span> ${formatDate(research.submission_date)}
+                    </div>
+                    ${research.admin_notes ? `
+                    <div class="research-info">
+                        <span>ملاحظات المسؤول:</span> 
+                        <p>${research.admin_notes}</p>
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="research-card-footer">
+                    <button class="btn btn-share" 
+                            ${isShared ? 'disabled' : ''} 
+                            data-id="${research.id}" 
+                            onclick="showShareModal(${research.id})">
+                        ${isShared ? 'تمت المشاركة' : 'مشاركة البحث'}
+                    </button>
+                    <a href="view_research.php?id=${research.id}" class="btn">عرض التفاصيل</a>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // عرض نافذة تأكيد المشاركة
+        function showShareModal(researchId) {
+            selectedResearchId = researchId;
+            
+            // العثور على بيانات البحث
+            const research = currentResearchData.find(r => parseInt(r.id) === parseInt(researchId));
+            
+            if (!research) {
+                return;
+            }
+            
+            const researchDetails = document.getElementById('research-details');
+            researchDetails.innerHTML = `
+                <div class="research-info">
+                    <span>عنوان البحث:</span> ${research.title}
+                </div>
+                <div class="research-info">
+                    <span>التصنيف:</span> ${research.classification || 'غير محدد'}
+                </div>
+                <div class="research-info">
+                    <span>نوع البحث:</span> ${research.r_type === 'practical' ? 'تطبيقي' : 'نظري'}
+                </div>
+            `;
+            
+            document.getElementById('share-modal').style.display = 'block';
+        }
+
+        // إغلاق النافذة المنبثقة
+        function closeModal() {
+            document.getElementById('share-modal').style.display = 'none';
+        }
+
+        // إرسال طلب المشاركة
+        function shareResearch() {
+            if (!selectedResearchId) {
+                return;
+            }
+            
+            // إرسال طلب المشاركة
+            fetch('share_research.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `research_id=${selectedResearchId}`
+            })
+            .then(response => {
+                // للتأكد من أن الرد هو JSON صالح
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                closeModal();
+                
+                if (data.success) {
+                    alert('تمت مشاركة البحث بنجاح ويمكن للآخرين الآن المشاركة فيه.');
+                    loadMyResearch(); // إعادة تحميل البيانات
+                } else {
+                    alert(data.message || 'حدث خطأ أثناء مشاركة البحث. يرجى المحاولة مرة أخرى.');
+                }
+            })
+            .catch(error => {
+                closeModal();
+                console.error('خطأ في مشاركة البحث:', error);
+                alert('حدث خطأ أثناء مشاركة البحث. يرجى المحاولة مرة أخرى.');
+            });
+        }
+
+        // تنسيق التاريخ
+        function formatDate(dateString) {
+            if (!dateString) return 'غير محدد';
+            
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return dateString; // إرجاع النص الأصلي إذا كان التاريخ غير صالح
+            }
+            
+            return date.toLocaleDateString('ar-eg', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+    </script>
+</body>
+</html>

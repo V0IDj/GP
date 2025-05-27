@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملف المستخدم البحثي</title>
+    <link rel="stylesheet" href="./styles/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-cover"></div>
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar">
+                        <div id="profile-image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <img id="profile-image" src="" alt="صورة الملف الشخصي">
+                    </div>
+                    <button id="change-photo-btn" class="btn"><i class="fas fa-camera"></i> تغيير الصورة</button><br>
+                    <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
+                </div>
+                <div class="profile-info">
+                    <h1 id="user-name">جاري التحميل...</h1>
+                    <p id="user-title">جاري التحميل...</p>
+                </div>
+            </div>
+            
+            <div class="profile-nav">
+                <ul>
+                    <li class="active"><a href="#about" data-section="about">نبذة عني</a></li>
+                    <li><a href="#contact" data-section="contact">معلومات الاتصال</a></li>
+                    <li><a href="#settings" data-section="settings">الإعدادات</a></li>
+                </ul>
+            </div>
+            
+            <div class="profile-content">
+                <!-- About Section -->
+                <div id="about" class="profile-section active">
+                    <div class="section-header">
+                        <h2>نبذة عني</h2>
+                        <button class="edit-btn" data-section="about"><i class="fas fa-edit"></i> تعديل</button>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-block">
+                            <h3>السيرة الذاتية</h3>
+                            <p id="user-bio">جاري التحميل...</p>
+                        </div>
+                        <div class="info-block">
+                            <h3>القسم و التخصص</h3>
+                            <div class="info-item">
+                                <i class="fas fa-university"></i>
+                                <div>
+                                    <strong id="user-college">جاري التحميل...</strong>
+                                    <p id="user-major">جاري التحميل...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-edit" style="display: none;">
+                        <form id="about-form">
+                            <div class="form-group">
+                                <label for="edit-bio">السيرة الذاتية</label>
+                                <textarea id="edit-bio" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-college">الكلية</label>
+                                <input type="text" id="edit-college">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-major">التخصص</label>
+                                <input type="text" id="edit-major">
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn save-btn">حفظ</button>
+                                <button type="button" class="btn cancel-btn">إلغاء</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Contact Section -->
+                <div id="contact" class="profile-section">
+                    <div class="section-header">
+                        <h2>معلومات الاتصال</h2>
+                        <button class="edit-btn" data-section="contact"><i class="fas fa-edit"></i> تعديل</button>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-block">
+                            <div class="info-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>البريد الإلكتروني</strong>
+                                    <p id="user-email">جاري التحميل...</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <strong>رقم الهاتف</strong>
+                                    <p id="user-phone">جاري التحميل...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-edit" style="display: none;">
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="edit-email">البريد الإلكتروني</label>
+                                <input type="email" id="edit-email">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-phone">رقم الهاتف</label>
+                                <input type="tel" id="edit-phone">
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn save-btn">حفظ</button>
+                                <button type="button" class="btn cancel-btn">إلغاء</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div id="settings" class="profile-section">
+                    <div class="section-header">
+                        <h2>الإعدادات</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-block">
+                            <h3>تغيير كلمة المرور</h3>
+                            <form id="password-form">
+                                <div class="form-group">
+                                    <label for="current-password">كلمة المرور الحالية</label>
+                                    <input type="password" id="current-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">كلمة المرور الجديدة</label>
+                                    <input type="password" id="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">تأكيد كلمة المرور</label>
+                                    <input type="password" id="confirm-password">
+                                </div>
+                                <div class="form-buttons">
+                                    <button type="submit" class="btn save-btn">تحديث كلمة المرور</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Status Messages -->
+    <div id="status-message" class="status-message"></div>
+    
+    <script src="./javascript/profile.js"></script>
+</body>
+</html>

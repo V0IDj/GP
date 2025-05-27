@@ -1,0 +1,635 @@
+/* Admin Researches CSS - Modified with red color scheme */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #771411; /* Changed from blue to dark red */
+}
+
+header h1 {
+    color: #5a1009; /* Changed from blue to darker red */
+    font-size: 2rem;
+}
+
+.user-info {
+    background-color: #f0ecec; /* Slight red tint */
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-info span:last-child {
+    font-weight: bold;
+    color: #771411; /* Changed from blue to dark red */
+}
+
+main {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.filter-group label {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+}
+
+.search-box {
+    display: flex;
+    margin-right: auto;
+    min-width: 300px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 0.9rem;
+}
+
+.search-box button {
+    padding: 8px 15px;
+    background-color: #771411; /* Changed from blue to dark red */
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+    background-color: #5a1009; /* Changed from light blue to darker red */
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #555;
+}
+
+.no-researches {
+    text-align: center;
+    padding: 30px;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.researches-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.research-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.research-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.research-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.research-title {
+    font-weight: bold;
+    color: #5a1009; /* Changed from blue to darker red */
+    font-size: 1.1rem;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.research-status {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.status-pending1 {
+    background-color: #b86832; /* Changed from orange to bronze */
+}
+
+.status-pending2 {
+    background-color: #8f1d14; /* Changed from blue to red */
+}
+
+.status-approved {
+    background-color: #19a83d; /* Changed from green to olive green */
+}
+
+.status-rejected {
+    background-color: #6d0905; /* Changed from light red to darker red */
+}
+
+.research-info {
+    padding: 15px;
+}
+
+.research-info p {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.research-info p:last-child {
+    margin-bottom: 0;
+}
+
+.research-info p strong {
+    color: #555;
+}
+
+.research-actions {
+    padding: 12px 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-view {
+    background-color: #771411; /* Changed from blue to dark red */
+}
+
+.btn-view:hover {
+    background-color: #5a1009; /* Changed from light blue to darker red */
+}
+
+.btn-approve {
+    background-color: #1ba13d; /* Changed from green to olive green */
+}
+
+.btn-approve:hover {
+    background-color: #18641e; /* Changed from light green to darker olive */
+}
+
+.btn-reject {
+    background-color: #6d0905; /* Changed from light red to darker red */
+}
+
+.btn-reject:hover {
+    background-color: #540704; /* Changed from medium red to very dark red */
+}
+
+.btn-assign {
+    background-color: #a03b36; /* Changed from purple to different red shade */
+}
+
+.btn-assign:hover {
+    background-color: #872f2a; /* Changed from dark purple to darker red shade */
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #eee;
+}
+
+.page-btn.active {
+    background-color: #771411; /* Changed from blue to dark red */
+    color: white;
+    border-color: #771411; /* Changed from blue to dark red */
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 50px auto;
+    padding: 0;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    background-color: #771411; /* Changed from blue to dark red */
+    color: white;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.close-modal, .close-assign-modal {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    text-align: left;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+}
+
+.modal-footer button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+#modal-close-btn, #cancel-assign-btn {
+    background-color: #9a9e9f; /* Slightly darker gray */
+    color: white;
+}
+
+#modal-close-btn:hover, #cancel-assign-btn:hover {
+    background-color: #7f8c8d;
+}
+
+#assign-btn {
+    background-color: #771411; /* Changed from blue to dark red */
+    color: white;
+}
+
+#assign-btn:hover {
+    background-color: #5a1009; /* Changed from light blue to darker red */
+}
+
+/* Research detail styles */
+.research-detail {
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.research-detail h3 {
+    padding: 12px 15px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    color: #5a1009; /* Changed from blue to darker red */
+    font-size: 1.1rem;
+}
+
+.detail-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    width: 35%;
+    color: #555;
+    font-weight: bold;
+}
+
+.detail-value {
+    width: 65%;
+}
+
+.notes-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.notes-section h4 {
+    color: #5a1009; /* Changed from blue to darker red */
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.file-list {
+    padding: 10px 0;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-icon {
+    font-size: 1.2rem;
+}
+
+.file-actions a {
+    color: #771411; /* Changed from blue to dark red */
+    text-decoration: none;
+}
+
+.file-actions a:hover {
+    text-decoration: underline;
+}
+
+.admin-action-section, .admin-notes-section {
+    background-color: #f0ecec; /* Slight red tint */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.admin-action-section h4, .admin-notes-section h4 {
+    color: #5a1009; /* Changed from blue to darker red */
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.status-history {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+.status-history h4 {
+    color: #5a1009; /* Changed from blue to darker red */
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.history-item {
+    border-left: 3px solid #771411; /* Changed from blue to dark red */
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.history-date {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.history-action {
+    margin-bottom: 5px;
+}
+
+.history-user {
+    color: #7f8c8d;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+/* Reviewers list styles */
+.reviewers-list {
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.reviewer-item {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reviewer-item:last-child {
+    border-bottom: none;
+}
+
+.reviewer-item:hover {
+    background-color: #f5f5f5;
+}
+
+.reviewer-item.selected {
+    background-color: #f4e1e0; /* Light red background */
+}
+
+.reviewer-icon {
+    font-size: 1.6rem;
+    margin-left: 15px;
+    color: #771411; /* Changed from blue to dark red */
+}
+
+.reviewer-info {
+    flex: 1;
+}
+
+.reviewer-name {
+    font-weight: bold;
+    color: #5a1009; /* Changed from blue to darker red */
+    margin-bottom: 5px;
+}
+
+.reviewer-role, .reviewer-specialty {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.no-reviewer {
+    padding: 20px;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+footer {
+    text-align: center;
+    padding: 15px 0;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .researches-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 30px auto;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+    }
+    
+    .detail-label, .detail-value {
+        width: 100%;
+    }
+    
+    .detail-value {
+        margin-top: 5px;
+    }
+}
+
+.classification-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.classification-Q1 {
+    background-color: #26921c; /* Changed from green to olive green */
+}
+
+.classification-Q2 {
+    background-color: #771411; /* Changed from blue to dark red */
+}
+
+.classification-Q3 {
+    background-color: #b86832; /* Changed from orange to bronze */
+}
+
+.classification-Q4 {
+    background-color: #6d0905; /* Changed from light red to darker red */
+}
+
+.error-message {
+    background-color: #f9e8e8; /* Light red background */
+    color: #6d0905; /* Changed from light red to darker red */
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-left: 4px solid #6d0905; /* Changed from light red to darker red */
+}

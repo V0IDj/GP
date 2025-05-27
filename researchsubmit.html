@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقديم بحث جديد</title>
+    <link rel="stylesheet" href="./styles/researchsubmit.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>تقديم بحث جديد</h1>
+        
+        <div id="success-alert" class="alert alert-success">
+            تم تقديم البحث بنجاح!
+        </div>
+        
+        <div id="error-alert" class="alert alert-danger">
+            حدث خطأ أثناء تقديم البحث. الرجاء المحاولة مرة أخرى.
+        </div>
+        
+        <form id="research-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title" class="required">عنوان البحث</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">التصنيف</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q1" name="classification" value="Q1" required>
+                        <label for="q1">Q1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2" name="classification" value="Q2">
+                        <label for="q2">Q2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3" name="classification" value="Q3">
+                        <label for="q3">Q3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4" name="classification" value="Q4">
+                        <label for="q4">Q4</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="required">مكان النشر</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="journal" name="where_to_publish" value="Journal" required>
+                        <label for="journal">مجلة علمية</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="book" name="where_to_publish" value="Book Chapter">
+                        <label for="book">فصل كتاب</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="conference" name="where_to_publish" value="Conference">
+                        <label for="conference">مؤتمر</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="required"> نوع البحث</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="practical" name="r_type" value="practical" required>       
+                                        
+                         <label for="practical">عملي</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="theoretical" name="r_type" value="theoretical" required>
+                        <label for="theoretical">نظري</label>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="college">الكلية</label>
+                <input type="text" id="college" name="college">
+            </div>
+            
+            <div class="form-group">
+                <label for="user_notes">ملاحظات الباحث</label>
+                <textarea id="user_notes" name="user_notes"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="research_files" class="required">ملفات البحث</label>
+                <div class="file-upload-container" id="file-upload-container">
+                    <input type="file" id="research_files" name="research_files" class="file-upload-input" required>
+                    <div class="file-upload-icon">📄</div>
+                    <div class="file-upload-text">انقر هنا لاختيار ملف البحث</div>
+                    <div class="file-upload-subtext">أو اسحب الملف وأفلته هنا</div>
+                </div>
+                <div class="file-selected" id="file-selected">
+                    <span class="file-icon">📎</span>
+                    <span id="file-name"></span>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">جاري تقديم البحث...</div>
+            </div>
+            
+            <button type="submit" id="submit-btn">تقديم البحث</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('research-form');
+            const successAlert = document.getElementById('success-alert');
+            const errorAlert = document.getElementById('error-alert');
+            const loading = document.getElementById('loading');
+            const fileInput = document.getElementById('research_files');
+            const fileSelected = document.getElementById('file-selected');
+            const fileName = document.getElementById('file-name');
+            const fileContainer = document.getElementById('file-upload-container');
+
+            // تحديث عرض اسم الملف عند اختياره
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    fileName.textContent = this.files[0].name;
+                    fileSelected.style.display = 'block';
+                    fileContainer.style.borderColor = '#2ecc71';
+                } else {
+                    fileSelected.style.display = 'none';
+                    fileContainer.style.borderColor = '#3498db';
+                }
+            });
+
+            // إضافة خاصية السحب والإفلات للملفات
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileContainer.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileContainer.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileContainer.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                fileContainer.style.borderColor = '#2ecc71';
+                fileContainer.style.backgroundColor = '#eeffee';
+            }
+
+            function unhighlight() {
+                fileContainer.style.borderColor = '#3498db';
+                fileContainer.style.backgroundColor = '#f9f9f9';
+            }
+
+            fileContainer.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                if (files.length > 0) {
+                    fileName.textContent = files[0].name;
+                    fileSelected.style.display = 'block';
+                }
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // إخفاء التنبيهات السابقة
+                successAlert.style.display = 'none';
+                errorAlert.style.display = 'none';
+                
+                // التحقق من صحة النموذج
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // إظهار التحميل
+                loading.style.display = 'block';
+                
+                // الحصول على بيانات النموذج
+                const formData = new FormData(form);
+                
+                // إرسال البيانات إلى الخادم
+                fetch('researchsubmit.php', {
+                    method: 'POST',
+                    body: formData,
+                    // تحديد عدم وجود رؤوس خاصة للطلب لتجنب مشاكل CORS
+                    headers: {
+                        // لا نضيف رؤوس Content-Type عند استخدام FormData
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Server returned ' + response.status + ' ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    loading.style.display = 'none';
+                    
+                    if (data.success) {
+                        successAlert.textContent = data.message || 'تم تقديم البحث بنجاح!';
+                        successAlert.style.display = 'block';
+                        form.reset();
+                        fileSelected.style.display = 'none';
+                        fileContainer.style.borderColor = '#3498db';
+                        window.scrollTo(0, 0);
+                    } else {
+                        errorAlert.textContent = data.message || 'حدث خطأ أثناء تقديم البحث. الرجاء المحاولة مرة أخرى.';
+                        errorAlert.style.display = 'block';
+                        window.scrollTo(0, 0);
+                    }
+                })
+                .catch(error => {
+                    loading.style.display = 'none';
+                    console.error('Error:', error);
+                    errorAlert.textContent = 'حدث خطأ في الاتصال بالخادم: ' + error.message;
+                    errorAlert.style.display = 'block';
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            function validateForm() {
+                const title = document.getElementById('title').value.trim();
+                const classification = document.querySelector('input[name="classification"]:checked');
+                const whereToPublish = document.querySelector('input[name="where_to_publish"]:checked');
+                const researchFiles = document.getElementById('research_files').files;
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                if (!title) {
+                    errorMessage = 'الرجاء إدخال عنوان البحث';
+                    isValid = false;
+                } else if (!classification) {
+                    errorMessage = 'الرجاء اختيار تصنيف البحث';
+                    isValid = false;
+                } else if (!whereToPublish) {
+                    errorMessage = 'الرجاء اختيار مكان النشر';
+                    isValid = false;
+                } else if (researchFiles.length === 0) {
+                    errorMessage = 'الرجاء تحميل ملفات البحث';
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    errorAlert.textContent = errorMessage;
+                    errorAlert.style.display = 'block';
+                    window.scrollTo(0, 0);
+                }
+                
+                return isValid;
+            }
+        });
+    </script>
+</body>
+</html>
