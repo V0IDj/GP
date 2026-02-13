@@ -1,1 +1,1 @@
-here is the doc of the whole gp and the powerpoint
+here is the doc of the whole gp and the powerpoint #i have it on my phone(powerpoint);
